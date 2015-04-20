@@ -90,6 +90,7 @@ function Game:draw()
   
   -- Psyko Code --	
 
+  self:GuiDraw()
 end
 
 function Game:onkeypressed(k)
@@ -147,6 +148,39 @@ function Game:backspace()
   end
 end
 
+local DASH_HEIGHT = 50
+function Game:GuiDraw()
+  love.graphics.setFont(mainFont)
+  love.graphics.setColor(80, 80, 80, 230)
+  love.graphics.rectangle("fill",0,0,SCREEN_WIDTH,DASH_HEIGHT) -- mode, x, y, width, height
+  local vertices = {0,SCREEN_HEIGHT-30, 100,SCREEN_HEIGHT-30, 130,SCREEN_HEIGHT, 0,SCREEN_HEIGHT}
+  love.graphics.polygon("fill",vertices) -- mode, vertices
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.print("Hives Destroyed:", 5,6) -- subtract 12
+  love.graphics.print("Snipes Killed:", 5,26)
+  love.graphics.print(stats.hivesDestroyed.."/"..stats.hivesLeft, 150,6)
+  love.graphics.print(stats.snipesKilled.."/"..stats.snipesLeft, 150,26)
+  love.graphics.print("Lives:", 350,6)
+  love.graphics.print("Level:", 350,26)
+  love.graphics.print(stats.lives, 410,6)
+  love.graphics.print(stats.level, 410,26)
+  love.graphics.print("Score:", 600,6)
+  love.graphics.print("Bonus Time:", 600,26)
+  love.graphics.print(stats.score, 710,6)
+  love.graphics.print(util.round(stats.time,0), 710,26)
+
+  local vertices = {1,DASH_HEIGHT, 
+    SCREEN_WIDTH-1,DASH_HEIGHT,
+    SCREEN_WIDTH-1,SCREEN_HEIGHT-HUD_HEIGHT-1,
+    SCREEN_WIDTH-HUD_WIDTH-1,SCREEN_HEIGHT-HUD_HEIGHT-1,
+    SCREEN_WIDTH-HUD_WIDTH-1,SCREEN_HEIGHT-1,
+    130,SCREEN_HEIGHT-1,
+    100,SCREEN_HEIGHT-31,
+    1,SCREEN_HEIGHT-31}
+
+  love.graphics.setLineWidth(2)
+  love.graphics.polygon("line",vertices) -- mode, vertices
+end
 function Game:drawArray(array)
   for key, item in ipairs(array) do
     item:draw()
