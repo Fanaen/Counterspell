@@ -1,4 +1,7 @@
 
+require "menus"
+require "highScores"
+
 -- global constants
 SNIPES_VERSION = "0.5"
 SCREEN_WIDTH = love.graphics.getWidth()
@@ -47,16 +50,113 @@ logoImage = {}
 scores = {}
 currentScore = 0
 
+-- GOD MOD --
+local TEST_COMMANDS_ACTIVATED = false
+
 -- local to main.lua
 local isKeyRightDown = false
 local isKeyLeftDown = false
 local isKeyUpDown = false
 local isKeyDownDown = false
 
+local colors = {}
+
 
 function love.load()
+
+  love.graphics.setFont(mainFont)
+  math.randomseed( os.date("%S%M%H") ) -- seed our random number generator
+  
+  -- load Images --
+  
+  -- load Sounds --
+  
+  -- create high score system --
+  love.filesystem.setIdentity("counterSpell_data")
+  scores = highScores:new()
+  scores:load("scores.txt",20)
+
     x, y, w, h = 20, 20, 60, 20;
 end
+
+function love.quit()
+	scores:save()
+end
+
+
+function love.keypressed(k)     -- **** LOVE CALLBACK ****
+  if gameState == GAME_STATE_PLAYING then
+    keyPressedPlaying(k)
+  elseif gameState == GAME_STATE_MENU then
+    menus.keyPressedMenu(k)
+  elseif gameState == GAME_STATE_ESC then
+    keyPressedEsc(k)
+  elseif gameState == GAME_STATE_LEVEL_COMPLETE then
+    keyPressedLevelComplete(k)
+  elseif gameState == GAME_STATE_GAME_OVER then
+    keyPressedGameOver(k)
+  end
+end
+
+function keyPressedEsc(k)
+  if k == "return" then
+    gameState = GAME_STATE_MENU
+  elseif k == "escape" then
+    gameState = GAME_STATE_PLAYING
+  end
+end
+
+function startGame()
+--  stats.newGame()
+--  destroyLevel()
+--  populateLevel()
+  gameState = GAME_STATE_PLAYING
+end
+
+function startLevel()
+--  stats.newLevel()
+--  destroyLevel()
+--  populateLevel()
+  gameState = GAME_STATE_PLAYING
+end
+
+function keyPressedPlaying(k)
+  if k == "escape" then
+    gameState = GAME_STATE_ESC
+
+  elseif TEST_COMMANDS_ACTIVATED and (k=='f1') then
+    -- stats.levelComplete()
+  elseif TEST_COMMANDS_ACTIVATED and (k=='f2') then
+    gameState = GAME_STATE_GAME_OVER
+  end
+end
+
+function keyPressedLevelComplete(k)
+  if k == " " or k == "return" then
+    startLevel()
+  end
+end
+
+function keyPressedGameOver(k)
+  if k == " " or k == "return" then
+    if highScoreName:len() > 0 and scores:isHighScore(stats.score) then
+      scores:addScore(highScoreName,stats.score)
+    end
+    gameState = GAME_STATE_MENU
+  elseif k:len() == 1 and 
+    ((k >= "a" and k <= "z") or (k >= "0" and k <= "9")) then
+    if (highScoreName:len() < 10) then
+      highScoreName = highScoreName..k
+    end
+  elseif k == "backspace" or k == "delete" then
+    local len = highScoreName:len()
+    if (len > 0) then
+      highScoreName = highScoreName:sub(1,len-1)
+    end
+  end
+end
+
+
 
 function love.update(dt)
     w = w + 1;
