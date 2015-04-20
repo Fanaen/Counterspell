@@ -53,17 +53,16 @@ local isKeyLeftDown = false
 local isKeyUpDown = false
 local isKeyDownDown = false
 
+require "game"
 
 function love.load()
-    x, y, w, h = 20, 20, 60, 20;
+    Game:load()
 end
 
 function love.update(dt)
-    w = w + 1;
-    h = h + 1;
+    Game:update(dt)
 end
 
 function love.draw()
-    love.graphics.setColor(0, 100, 100);
-    love.graphics.rectangle('fill', x, y, w, h);
+    Game:draw()
 end
