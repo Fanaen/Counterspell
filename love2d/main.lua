@@ -1,6 +1,7 @@
 
 require "menus"
 require "highScores"
+require "game"
 
 -- global constants
 SNIPES_VERSION = "0.5"
@@ -76,7 +77,8 @@ function love.load()
   scores = highScores:new()
   scores:load("scores.txt",20)
 
-    x, y, w, h = 20, 20, 60, 20;
+  Game:load()
+    
 end
 
 function love.quit()
@@ -159,11 +161,9 @@ end
 
 
 function love.update(dt)
-    w = w + 1;
-    h = h + 1;
+    Game:update(dt)
 end
 
 function love.draw()
-    love.graphics.setColor(0, 100, 100);
-    love.graphics.rectangle('fill', x, y, w, h);
+    Game:draw()
 end
