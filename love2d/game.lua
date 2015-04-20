@@ -1,10 +1,19 @@
 
+require "attack"
+require "enemy"
+
 Game = {
   
 }
 
 
 function Game:load()
+
+  -- Physic --
+  
+  love.physics.setMeter(LINES_HEIGHT) -- the height of a meter our worlds will be LINES_HEIGHT px
+  self.world = love.physics.newWorld(0, 0, true)
+  self.world:setCallbacks(beginContact, endContact, preSolve, postSolve)
 
   -- Fanaen Code --
 
@@ -18,6 +27,9 @@ function Game:load()
   
   -- Background --
   self.background       = love.graphics.newImage("images/background.png")
+  
+  -- Text attacks list --
+  self.attacks          = {}
 
   -- Psyko Code --
   
@@ -33,6 +45,9 @@ function Game:update(dt)
     self.textBlinkState = not self.textBlinkState
     self.textBlinkTime = self.textBlinkTime - self.textBlinkLength
   end
+  
+  -- Attacks --
+  self:updateArray(self.attacks, dt)
 
 -- Psyko Code --
 	
@@ -64,6 +79,10 @@ function Game:draw()
     love.graphics.rectangle("fill", x, y, 4, 20)
   end
   
+  -- Draw attacks --
+  
+  self:drawArray(self.attacks)
+  
   -- Psyko Code --	
 
 end
@@ -83,10 +102,18 @@ function Game:onkeypressed(k)
 	
 end
 
+-- Management methods --
+
 function Game:enter()
   
   -- Send the text --
   if string.len(self.textCursorText) > 0 then
+    
+    local attack = Attack:new(nil, self.textCursorText, self.textCursorLine)
+    attack:config()
+    attack:loadPhysic(self.world)
+    table.insert(self.attacks, attack)
+    
     self.textCursorText = ""
   end
 
@@ -105,3 +132,30 @@ function Game:backspace()
     self.textCursorLine = self.textCursorLine - 1
   end
 end
+
+function Game:drawArray(array)
+  for key, item in ipairs(array) do
+    item:draw()
+  end
+end
+
+function Game:updateArray(array, dt)
+  for key, item in ipairs(array) do
+    item:update(dt)
+  end
+end
+
+-- Physic --
+
+function beginContact(a, b, coll)
+    local x,y = coll:getNormal()
+    local aObject, bObject = a:getUserData(),  b:getUserData()
+    
+        
+    print(aObject.className.." colliding with ".. bObject.className)
+end
+
+function endContact(a, b, coll) end
+function preSolve(a, b, coll) end
+function postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2) end
+
