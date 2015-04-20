@@ -12,6 +12,7 @@ LINES_HEIGHT = 50
 MARGIN_TOP = 100
 
 MSG_DURATION = 3 -- seconds
+LINE_MAX_NUMBER = 10
 
 -- state in menu system
 GAME_MENU_MAIN = 1
@@ -64,8 +65,6 @@ local isKeyRightDown = false
 local isKeyLeftDown = false
 local isKeyUpDown = false
 local isKeyDownDown = false
-
-local colors = {}
 
 
 function love.load()
