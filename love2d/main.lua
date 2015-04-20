@@ -135,6 +135,8 @@ function keyPressedPlaying(k)
     -- stats.levelComplete()
   elseif TEST_COMMANDS_ACTIVATED and (k=='f2') then
     gameState = GAME_STATE_GAME_OVER
+  else
+    Game:onkeypressed(k)
   end
 end
 
@@ -235,7 +237,4 @@ function drawPopup()
   love.graphics.setColor(255, 255, 255)
   love.graphics.line(windowX, windowY,windowX + ESC_WIDTH,windowY) -- x1, y1, x2, y2, ...
   love.graphics.line(windowX, windowY + ESC_HEIGHT,windowX + ESC_WIDTH,windowY + ESC_HEIGHT) -- x1, y1, x2, y2, ...
-end
-function love.keypressed(key)
-    Game:onkeypressed(key)
 end
