@@ -12,6 +12,7 @@ function Attack:new(o, text, line)
   self.className = "Attack"
   self.text = text
   self.line = line
+  self.color = {r = 255, g = 255, b = 255, a = 255} 
   return o
 end
 
@@ -22,8 +23,6 @@ function Attack:config()
   self.y = MARGIN_TOP + self.line * LINES_HEIGHT
   self.h = 20
   self.w = string.len(self.line) * 10
-  
-  
 end
 
 function Attack:loadPhysic(world)
@@ -39,5 +38,6 @@ function Attack:update(dt)
 end
 
 function Attack:draw()
+  love.graphics.setColor(self.color.r, self.color.g, self.color.b, self.color.a)
   love.graphics.print(self.text, self.x, self.y)
 end

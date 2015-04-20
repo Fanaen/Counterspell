@@ -17,13 +17,15 @@ function Game:load()
 
   -- Fanaen Code --
 
-  self.textBlinkLength  = 0.5   -- Cursor's blink 
-  self.textBlinkTime    = 0     -- Cursor's current time (used for state)
-  self.textBlinkState   = true  -- Cursor's current state
-  self.textCursorLine   = 1     -- Cursor's line
-  self.textLineMax      = 10    -- Nb line max
-  self.textCursorText   = "Test"    -- Current text
-  self.textFont         = love.graphics.newFont("fonts/UbuntuMono-R.ttf", 20)
+  self.textBlinkLength      = 0.5   -- Cursor's blink 
+  self.textBlinkTime        = 0     -- Cursor's current time (used for state)
+  self.textBlinkState       = true  -- Cursor's current state
+  self.textCursorLine       = 1     -- Cursor's line
+  self.textLineMax          = 10    -- Nb line max
+  self.textCursorText       = ""    -- Current text
+  self.textCursorColor      = {r = 255, g = 255, b = 255, a = 255} 
+  self.textCursorColorName  = "white"
+  self.textFont             = love.graphics.newFont("fonts/UbuntuMono-R.ttf", 20)
   
   -- Background --
   self.background       = love.graphics.newImage("images/background.png")
@@ -58,6 +60,7 @@ function Game:draw()
   -- Fanaen Code --
   
   -- Background --
+  love.graphics.setColor(255, 255, 255, 255)
   love.graphics.draw(self.background, 0, 0)
   
   -- Line --
@@ -68,6 +71,7 @@ function Game:draw()
     local x = 10
     local y = lineY
   
+    love.graphics.setColor(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setFont(self.textFont)
     love.graphics.print(self.textCursorText, x, y)
   end
@@ -76,6 +80,7 @@ function Game:draw()
   if self.textBlinkState then
     local x = 10 + string.len(self.textCursorText) * 10
     local y = lineY
+    love.graphics.setColor(255, 255, 255, 255)
     love.graphics.rectangle("fill", x, y, 4, 20)
   end
   
@@ -96,6 +101,13 @@ function Game:onkeypressed(k)
     self:enter()
   elseif string.len(k) == 1 then
     self.textCursorText = self.textCursorText .. k
+    
+    for key, color in ipairs(self:getColors()) do
+      print(self.textCursorText, color)
+      if string.find(self.textCursorText, color) then
+        self.textCursorColor = self:getColor(color)
+      end
+    end
   end
   
   -- Psyko Code --
@@ -113,6 +125,8 @@ function Game:enter()
     attack:config()
     attack:loadPhysic(self.world)
     table.insert(self.attacks, attack)
+    
+    attack.color = self.textCursorColor
     
     self.textCursorText = ""
   end
@@ -158,4 +172,80 @@ end
 function endContact(a, b, coll) end
 function preSolve(a, b, coll) end
 function postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, tangentimpulse2) end
+
+-- Color --
+
+function Game:getColor(str)
+  local color = {r = 255, g = 255, b = 255, a = 255} 
+  
+  if str == "black" then
+    color.r = 0
+    color.g = 0
+    color.b = 0
+  elseif str == "blue" then
+    color.r = 0
+    color.g = 127
+    color.b = 255
+  elseif str == "brown" then
+    color.r = 127
+    color.g = 63
+    color.b = 0
+  elseif str == "gray" then
+    color.r = 127
+    color.g = 127
+    color.b = 127
+  elseif str == "green" then
+    color.r = 0
+    color.g = 255
+    color.b = 0
+  elseif str == "orange" then
+    color.r = 255
+    color.g = 127
+    color.b = 0
+  elseif str == "pink" then
+    color.r = 255
+    color.g = 127
+    color.b = 127
+  elseif str == "purple" then
+    color.r = 127
+    color.g = 0
+    color.b = 255
+  elseif str == "rainbow" then
+  elseif str == "red" then
+    color.r = 255
+    color.g = 0
+    color.b = 0
+  elseif str == "white" then
+    color.r = 0
+    color.g = 0
+    color.b = 0
+  elseif str == "yellow" then
+    color.r = 255
+    color.g = 255
+    color.b = 0
+  elseif str == "zebra" then
+  end
+  
+  return color
+end
+
+function Game:getColors()
+  local colors = {
+    "black",
+    "blue",
+    "brown",
+    "gray",
+    "green",
+    "orange", 
+    "pink",
+    "purple",
+    --"rainbow",
+    "red",
+    "white",
+    "yellow", 
+    --"zebra" 
+  }
+  
+  return colors
+end
 
