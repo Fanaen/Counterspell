@@ -167,3 +167,7 @@ end
 function love.draw()
     Game:draw()
 end
+
+function love.keypressed(key)
+    Game:onkeypressed(key)
+end
