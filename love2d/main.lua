@@ -4,12 +4,14 @@ require "highScores"
 require "game"
 
 -- global constants
-SNIPES_VERSION = "0.5"
+CS_VERSION = "0.5"
 SCREEN_WIDTH = love.graphics.getWidth()
 SCREEN_HEIGHT = love.graphics.getHeight()
 
 LINES_HEIGHT = 50
 MARGIN_TOP = 100
+
+MSG_DURATION = 3 -- seconds
 
 -- state in menu system
 GAME_MENU_MAIN = 1
@@ -55,6 +57,9 @@ currentScore = 0
 local TEST_COMMANDS_ACTIVATED = false
 
 -- local to main.lua
+local ESC_HEIGHT = 200  -- screen 800 x 600
+local ESC_WIDTH = 600
+
 local isKeyRightDown = false
 local isKeyLeftDown = false
 local isKeyUpDown = false
@@ -161,13 +166,76 @@ end
 
 
 function love.update(dt)
+if gameState == GAME_STATE_PLAYING then
+    -- stats.update(dt)
     Game:update(dt)
+  elseif (gameState == GAME_STATE_MENU) then
+  elseif (gameState == GAME_STATE_ESC) then
+  elseif (gameState == GAME_STATE_LEVEL_COMPLETE) then
+  elseif (gameState == GAME_STATE_GAME_OVER) then
+  end
+    
 end
 
 function love.draw()
+  if gameState == GAME_STATE_PLAYING then
     Game:draw()
+  elseif gameState == GAME_STATE_MENU then
+    menus.draw()
+  elseif gameState == GAME_STATE_ESC then
+    Game:draw()
+    drawEsc()
+  elseif gameState == GAME_STATE_LEVEL_COMPLETE then
+    Game:draw()
+    drawLevelComplete()
+  elseif gameState == GAME_STATE_GAME_OVER then
+    Game:draw()
+    drawGameOver()
+  end
+    
 end
 
+function drawEsc()
+  drawPopup()
+  love.graphics.setFont(menuFont)
+  love.graphics.printf("Game Paused", 0,250,SCREEN_WIDTH,"center")
+  love.graphics.setFont(mainFont)
+  love.graphics.printf("press [Enter] to quit and return to the main menu", 0,300,SCREEN_WIDTH,"center")
+  love.graphics.printf("press [esc] to continue playing", 0,320,SCREEN_WIDTH,"center")
+end
+
+function drawLevelComplete()
+  drawPopup()
+  love.graphics.setFont(menuFont)
+  love.graphics.printf("Level "..stats.level.." Complete", 0,250,SCREEN_WIDTH,"center")
+  love.graphics.setFont(mainFont)
+  love.graphics.printf("Time bonus = "..util.round(stats.time,0), 0,275,SCREEN_WIDTH,"center")
+  love.graphics.printf("press [space] to start next level", 0,320,SCREEN_WIDTH,"center")
+end
+
+function drawGameOver()
+  drawPopup()
+  love.graphics.setFont(menuFont)
+  love.graphics.printf("GAME OVER", 0,230,SCREEN_WIDTH,"center")
+
+  love.graphics.setFont(mainFont)
+  love.graphics.printf("Score: "..stats.score,0,250,SCREEN_WIDTH,"center")
+  if scores:isHighScore(stats.score) then
+    love.graphics.printf("Enter name to record score.",0,290,SCREEN_WIDTH,"center")
+    love.graphics.printf("Name: ["..highScoreName.."]",0,310,SCREEN_WIDTH,"center")
+  end
+  love.graphics.printf("press [space] to return to main menu", 0,350,SCREEN_WIDTH,"center")
+end
+
+function drawPopup()
+  local windowX = (SCREEN_WIDTH / 2) - (ESC_WIDTH / 2)
+  local windowY = (SCREEN_HEIGHT / 2) - (ESC_HEIGHT / 2)
+  love.graphics.setColor(80, 80, 80, 230)
+  love.graphics.rectangle("fill",windowX,windowY,ESC_WIDTH,ESC_HEIGHT) -- mode, x, y, width, height
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.line(windowX, windowY,windowX + ESC_WIDTH,windowY) -- x1, y1, x2, y2, ...
+  love.graphics.line(windowX, windowY + ESC_HEIGHT,windowX + ESC_WIDTH,windowY + ESC_HEIGHT) -- x1, y1, x2, y2, ...
+end
 function love.keypressed(key)
     Game:onkeypressed(key)
 end

@@ -20,7 +20,7 @@ function Game:load()
   self.background       = love.graphics.newImage("images/background.png")
 
   -- Psyko Code --
-
+  
 end
 
 function Game:update(dt)

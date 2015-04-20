@@ -10,7 +10,7 @@ function menus.keyPressedMenu(k)
   if gameMenu == GAME_MENU_MAIN then
     -- main menu input
     if k == "escape" then
-      love.event.push("q") -- quit the game
+      love.event.push("quit") -- quit the game
     elseif k == "up" then
       if mainMenuSelection == MAIN_MENU_START then
         mainMenuSelection = MAIN_MENU_EXIT
@@ -36,7 +36,7 @@ function menus.keyPressedMenu(k)
       elseif (mainMenuSelection == MAIN_MENU_ABOUT) then
         gameMenu = GAME_MENU_ABOUT
       elseif (mainMenuSelection == MAIN_MENU_EXIT) then
-        love.event.push("q") -- quit the game
+        love.event.push("quit") -- quit the game
       end
     end
   elseif gameMenu == GAME_MENU_SETTINGS then
@@ -56,13 +56,13 @@ function menus.keyPressedMenu(k)
       if menus.settingsMenuSelection == SETTINGS_MENU_SOUND then
         love.audio.setVolume(1.0)
       elseif menus.settingsMenuSelection == SETTINGS_MENU_SWAP then
-        util.setKeys(KEY_MODE_LEFT_HANDED)
+        -- util.setKeys(KEY_MODE_LEFT_HANDED)
       end
     elseif k == "left" then
       if menus.settingsMenuSelection == SETTINGS_MENU_SOUND then
         love.audio.setVolume(0.0)
       elseif menus.settingsMenuSelection == SETTINGS_MENU_SWAP then
-        util.setKeys(KEY_MODE_RIGHT_HANDED)
+        -- util.setKeys(KEY_MODE_RIGHT_HANDED)
       end
     elseif k == "escape" or k == " " or k == "return" then
       -- return to main menu
@@ -107,12 +107,12 @@ function menus._drawMenuHowToPlay()
   love.graphics.setColor(255, 255, 255) -- color = 0-255
   love.graphics.printf("How To Play", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
-  local txt = "Snipes Reloaded is a modern rendition of the 1983 game Snipes "
-  txt = txt.."created by SuperSet Software. The object of the game is to control your "
-  txt = txt.."creature by moving it through a maze to destroy snipes and the hives that "
-  txt = txt.."spawn them. Your creature is moved using the arrow keys and shoots in any "
-  txt = txt.."direction (including diagonally hitting two keys at once) using the "
-  txt = txt.."A, S, D, and W keys. "
+  local txt = "CounterSpell is a fun new game for the Lundum Dare Jam #32 "
+  txt = txt.."created by The Fried Chikens. The object of the game is to kill your "
+  txt = txt.."enemies by spelling words to destroy the rats that are running on you "
+  txt = txt.."Your Speller can move using the Up/Down Arrows and spell by typing"
+  txt = txt.."on your keyboard and by validate your spells using the "
+  txt = txt.."Enter and BackSpace keys. If you type special words, you'll see something incredible !"
   love.graphics.printf(txt, 50,60,SCREEN_WIDTH - 100,"left") -- text,x,y,wrap limit,align
 
   love.graphics.setColor(80, 80, 80, 230)
@@ -125,41 +125,41 @@ function menus._drawMenuHowToPlay()
   love.graphics.setFont(menuFont)
   love.graphics.print("Controls:", 50,170)
   love.graphics.setFont(mainFont)
-  love.graphics.print("arrow keys", 50,200)
-  love.graphics.print("- move your creature", 200,200)
-  love.graphics.print("A", 50,220)
-  love.graphics.print("- shoot left", 200,220)
-  love.graphics.print("D", 50,240)
-  love.graphics.print("- shoot right", 200,240)
-  love.graphics.print("W", 50,260)
-  love.graphics.print("- shoot up", 200,260)
-  love.graphics.print("S", 50,280)
-  love.graphics.print("- shoot down", 200,280)
-  love.graphics.print("(combine to shoot diagonally)", 200,300)
+  love.graphics.print("Up/Down Arrows", 50,200)
+  love.graphics.print("- move your Speller", 200,200)
+--  love.graphics.print("A", 50,220)
+--  love.graphics.print("- shoot left", 200,220)
+--  love.graphics.print("D", 50,240)
+--  love.graphics.print("- shoot right", 200,240)
+--  love.graphics.print("W", 50,260)
+--  love.graphics.print("- shoot up", 200,260)
+--  love.graphics.print("S", 50,280)
+--  love.graphics.print("- shoot down", 200,280)
+--  love.graphics.print("(combine to shoot diagonally)", 200,300)
   love.graphics.print("[Esc]", 50,320)
   love.graphics.print("- pause / quit game", 200,320)
 
-  love.graphics.setFont(menuFont)
-  love.graphics.print("Game Objects:", 50,370)
-  love.graphics.setFont(mainFont)
-
-  love.graphics.setColor(80, 80, 80, 230)
-  love.graphics.rectangle("fill",40,395,720,95) -- mode, x, y, width, height
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.line(40, 395,760,395) -- x1, y1, x2, y2, ...
-  love.graphics.line(40, 490,760,490) -- x1, y1, x2, y2, ...
-
-  love.graphics.draw(snipeImage,50,400)
-  love.graphics.print("- snipe", 80,402)
-  love.graphics.draw(snipeArmoredImage,50,430)
-  love.graphics.print("- armored snipe", 80,432)
-  love.graphics.rectangle("line",50,460,SNIPE_SIZE,SNIPE_SIZE, 0) -- mode, x, y, width, height
-  love.graphics.print("- snipe hive", 80,462)
-
-  love.graphics.draw(powerupPowerBallImage, 400,400)
-  love.graphics.print("- power ball (destroys walls)", 430,402)
-  love.graphics.draw(powerupExtraLifeImage, 400,430)
-  love.graphics.print("- extra life", 430,432)
+--  love.graphics.setFont(menuFont)
+--  love.graphics.print("Game Objects:", 50,370)
+--  love.graphics.setFont(mainFont)
+--
+--  love.graphics.setColor(80, 80, 80, 230)
+--  love.graphics.rectangle("fill",40,395,720,95) -- mode, x, y, width, height
+--  love.graphics.setColor(255, 255, 255)
+--  love.graphics.line(40, 395,760,395) -- x1, y1, x2, y2, ...
+--  love.graphics.line(40, 490,760,490) -- x1, y1, x2, y2, ...
+--
+--  love.graphics.draw(snipeImage,50,400)
+--  love.graphics.print("- snipe", 80,402)
+--  love.graphics.draw(snipeArmoredImage,50,430)
+--  love.graphics.print("- armored snipe", 80,432)
+--  love.graphics.rectangle("line",50,460,SNIPE_SIZE,SNIPE_SIZE, 0) -- mode, x, y, width, height
+--  love.graphics.print("- snipe hive", 80,462)
+--
+--  love.graphics.draw(powerupPowerBallImage, 400,400)
+--  love.graphics.print("- power ball (destroys walls)", 430,402)
+--  love.graphics.draw(powerupExtraLifeImage, 400,430)
+--  love.graphics.print("- extra life", 430,432)
 
   love.graphics.setFont(smallFont)
   love.graphics.printf("press [Esc] to return to main menu", 0,SCREEN_HEIGHT-50,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
@@ -175,21 +175,21 @@ function menus._drawSettings()
     menus._drawSettingsSelectionBox(90)
   end
   love.graphics.print("sound effects",55,100)
-  if love.audio.getVolume() > 0 then
-    love.graphics.draw(toggleOnImage, 300,95)
-  else
-    love.graphics.draw(toggleOffImage, 300,95)
-  end
+--  if love.audio.getVolume() > 0 then
+--    love.graphics.draw(toggleOnImage, 300,95)
+--  else
+--    love.graphics.draw(toggleOffImage, 300,95)
+--  end
 
   if menus.settingsMenuSelection == SETTINGS_MENU_SWAP then
     menus._drawSettingsSelectionBox(130)
   end
   love.graphics.print("swap movement/shoot keys",55,140)
-  if keyMoveUp == "up" then
-    love.graphics.draw(toggleOffImage, 300,135)
-  else
-    love.graphics.draw(toggleOnImage, 300,135)
-  end
+--  if keyMoveUp == "up" then
+--    love.graphics.draw(toggleOffImage, 300,135)
+--  else
+--    love.graphics.draw(toggleOnImage, 300,135)
+--  end
 
 
   love.graphics.setFont(smallFont)
@@ -197,6 +197,7 @@ function menus._drawSettings()
   love.graphics.printf("Use the [right] and [left] keys to toggle settings", 0,SCREEN_HEIGHT-70,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.printf("press [Esc] to return to main menu", 0,SCREEN_HEIGHT-50,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
 end
+
 function menus._drawSettingsSelectionBox(y)
   local selX = 50
   local selY = y
@@ -238,15 +239,13 @@ end
 function menus._drawMenuAbout()
   love.graphics.setFont(menuFont)
   love.graphics.setColor(255, 255, 255) -- color = 0-255
-  love.graphics.printf("About Snipes Reloaded", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
+  love.graphics.printf("About CounterSpell", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
 
-  love.graphics.print("Snipes Reloaded vs. "..SNIPES_VERSION, 50,60)
-  love.graphics.print("Developed in 2010 by Chipped Games on Toast", 50,80)
-  love.graphics.print("See "..SNIPES_URL.." for more information.", 50,100)
-  love.graphics.print("See the COPYRIGHT.TXT file for copyright information.", 50,120)
+  love.graphics.print("CounterSpell vs. "..CS_VERSION, 50,60)
+  love.graphics.print("Developed in 2015 by The Fried Chikens", 50,80)
 
-  love.graphics.print("Snipes Reloaded was developed using LÖVE, the free 2D game engine.", 50,160)
+  love.graphics.print("CounterSpell was developed using LOVE, the free 2D game engine.", 50,160)
   love.graphics.print("Visit love2d.org for more information.", 50,180)
 
   love.graphics.setFont(smallFont)
@@ -255,7 +254,7 @@ end
 
 function menus._drawMenuMain()
   --love.graphics.setFont(titleFont)
-  love.graphics.draw(logoImage, 250, 100)  -- 300x150
+  --love.graphics.draw(logoImage, 250, 100)  -- 300x150
 
   love.graphics.setColor(255, 255, 255) -- color = 0-255
   love.graphics.setFont(menuFont)
