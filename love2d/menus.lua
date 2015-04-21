@@ -2,6 +2,7 @@ menus = {} -- package name
 
 local SETTINGS_MENU_SOUND = 1
 local SETTINGS_MENU_SWAP = 2
+local background = love.graphics.newImage("images/background.png")
 
 --**********************************************************
 --*  key input logic
@@ -103,8 +104,12 @@ function menus.draw()
 end
 
 function menus._drawMenuHowToPlay()
+
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(background, 0, 0)
   love.graphics.setFont(menuFont)
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
+  
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.printf("How To Play", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
   local txt = "CounterSpell is a fun new game for the Lundum Dare Jam #32 "
@@ -113,20 +118,20 @@ function menus._drawMenuHowToPlay()
   txt = txt.."Your Speller can move using the Up/Down Arrows and spell by typing"
   txt = txt.."on your keyboard and by validate your spells using the "
   txt = txt.."Enter and BackSpace keys. If you type special words, you'll see something incredible !"
-  love.graphics.printf(txt, 50,60,SCREEN_WIDTH - 100,"left") -- text,x,y,wrap limit,align
+  love.graphics.printf(txt, 100,100,SCREEN_WIDTH - 100,"left") -- text,x,y,wrap limit,align
 
-  love.graphics.setColor(80, 80, 80, 230)
-  love.graphics.rectangle("fill",40,195,720,160) -- mode, x, y, width, height
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.line(40, 195,760,195) -- x1, y1, x2, y2, ...
-  love.graphics.line(40, 355,760,355) -- x1, y1, x2, y2, ...
+  love.graphics.setColor(80, 80, 80, 180)
+  love.graphics.rectangle("fill",100,220,650,160) -- mode, x, y, width, height
+  love.graphics.setColor(0, 0, 0, 255)
+  love.graphics.line(100, 220,750,220) -- x1, y1, x2, y2, ...
+  love.graphics.line(100, 380,750,380) -- x1, y1, x2, y2, ...
 
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.setFont(menuFont)
-  love.graphics.print("Controls:", 50,170)
+  love.graphics.print("Controls:", 100,200)
   love.graphics.setFont(mainFont)
-  love.graphics.print("Up/Down Arrows", 50,200)
-  love.graphics.print("- move your Speller", 200,200)
+  love.graphics.print("Up/Down Arrows", 100,240)
+  love.graphics.print("- move your Speller", 250,240)
 --  love.graphics.print("A", 50,220)
 --  love.graphics.print("- shoot left", 200,220)
 --  love.graphics.print("D", 50,240)
@@ -136,8 +141,8 @@ function menus._drawMenuHowToPlay()
 --  love.graphics.print("S", 50,280)
 --  love.graphics.print("- shoot down", 200,280)
 --  love.graphics.print("(combine to shoot diagonally)", 200,300)
-  love.graphics.print("[Esc]", 50,320)
-  love.graphics.print("- pause / quit game", 200,320)
+  love.graphics.print("[Esc]", 100,340)
+  love.graphics.print("- pause / quit game", 250,340)
 
 --  love.graphics.setFont(menuFont)
 --  love.graphics.print("Game Objects:", 50,370)
@@ -161,13 +166,18 @@ function menus._drawMenuHowToPlay()
 --  love.graphics.draw(powerupExtraLifeImage, 400,430)
 --  love.graphics.print("- extra life", 430,432)
 
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.setFont(smallFont)
   love.graphics.printf("press [Esc] to return to main menu", 0,SCREEN_HEIGHT-50,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
 end
 
 function menus._drawSettings()
+
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(background, 0, 0)
   love.graphics.setFont(menuFont)
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
+  
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.printf("Settings", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
   
@@ -191,7 +201,7 @@ function menus._drawSettings()
 --    love.graphics.draw(toggleOnImage, 300,135)
 --  end
 
-
+  love.graphics.setColor(0, 0, 0, 255)
   love.graphics.setFont(smallFont)
   love.graphics.printf("Use the [up] and [down] keys to navigate settings", 0,SCREEN_HEIGHT-90,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.printf("Use the [right] and [left] keys to toggle settings", 0,SCREEN_HEIGHT-70,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
@@ -203,28 +213,35 @@ function menus._drawSettingsSelectionBox(y)
   local selY = y
   local w = 350
   local h = 40
-  love.graphics.setColor(80, 80, 80, 230)
+  love.graphics.setColor(80, 80, 80, 180)
   love.graphics.rectangle("fill",selX,selY,w,h) -- mode, x, y, width, height
-  love.graphics.setColor(255, 255, 255)
+  love.graphics.setColor(255, 255, 255, 255)
   love.graphics.line(selX, selY,selX,selY + h) -- x1, y1, x2, y2, ...
   love.graphics.line(selX + w,selY,selX + w,selY + h) -- x1, y1, x2, y2, ...
+  
+  love.graphics.setColor(0, 0, 0)
 end
 
 function menus._drawMenuHighScores()
+
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(background, 0, 0)
   love.graphics.setFont(menuFont)
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
+  
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.printf("High Scores", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
   
   love.graphics.print("Name", 255,60) 
   love.graphics.print("Score", 400,60)
 
-  love.graphics.setColor(80, 80, 80, 230)
-  love.graphics.rectangle("fill",250, 85, 300, 410) -- mode, x, y, width, height
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.line(250, 85, 550, 85) -- x1, y1, x2, y2, ...
-  love.graphics.line(250, 495, 550, 495) -- x1, y1, x2, y2, ...
+  love.graphics.setColor(80, 80, 80, 180)
+  love.graphics.rectangle("fill",200, 85, 350, 410) -- mode, x, y, width, height
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.line(200, 85, 600, 85) -- x1, y1, x2, y2, ...
+  love.graphics.line(200, 495, 600, 495) -- x1, y1, x2, y2, ...
 
+  love.graphics.setColor(0, 0, 0, 255)
   for i=1,scores.size do
     local score = scores.scores[i]
     love.graphics.print(score.name,255,70+(i*20))
@@ -237,31 +254,41 @@ function menus._drawMenuHighScores()
 end
 
 function menus._drawMenuAbout()
+
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(background, 0, 0)
   love.graphics.setFont(menuFont)
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
-  love.graphics.printf("About CounterSpell", 0,20,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
+  
+  love.graphics.setColor(0, 0, 0, 255)
+  love.graphics.printf("About CounterSpell", 80,60,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
   love.graphics.setFont(mainFont)
 
-  love.graphics.print("CounterSpell vs. "..CS_VERSION, 50,60)
-  love.graphics.print("Developed in 2015 by The Fried Chikens", 50,80)
+  love.graphics.print("CounterSpell vs. "..CS_VERSION, 100,200)
+  love.graphics.print("Developed in 2015 by The Fried Chikens", 100,220)
 
-  love.graphics.print("CounterSpell was developed using LOVE, the free 2D game engine.", 50,160)
-  love.graphics.print("Visit love2d.org for more information.", 50,180)
+  love.graphics.print("CounterSpell was developed using LOVE, the free 2D game engine.", 100,280)
+  love.graphics.print("Visit love2d.org for more information.", 100,300)
 
   love.graphics.setFont(smallFont)
   love.graphics.printf("press [Esc] to return to main menu", 0,SCREEN_HEIGHT-50,SCREEN_WIDTH,"center") -- text,x,y,wrap limit,align
 end
 
 function menus._drawMenuMain()
-  --love.graphics.setFont(titleFont)
-  --love.graphics.draw(logoImage, 250, 100)  -- 300x150
+  
+  love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.draw(background, 0, 0)
+  
+  love.graphics.setFont(love.graphics.newFont("fonts/UbuntuMono-R.ttf", 100))
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
+  love.graphics.printf("CounterSpell", 5,115,SCREEN_WIDTH,"center")
 
-  love.graphics.setColor(255, 255, 255) -- color = 0-255
+  love.graphics.setColor(0, 0, 0, 255) -- color = 0-255
   love.graphics.setFont(menuFont)
 
   if (mainMenuSelection == MAIN_MENU_START) then
     menus._drawSelectionBox(270)
   end
+  
   love.graphics.printf("start", 0,270,SCREEN_WIDTH,"center") -- text,x,y
 
   if (mainMenuSelection == MAIN_MENU_HOW_TO_PLAY) then
@@ -291,6 +318,7 @@ function menus._drawMenuMain()
   
   love.graphics.setFont(smallFont)
   love.graphics.printf("Use the [up] and [down] keys to navigate options and the [Enter] key to select.", 0,480,SCREEN_WIDTH,"center") -- text,x,y
+
 end
 
 local SELECT_HEIGHT = 23  -- screen 800 x 600
@@ -303,4 +331,6 @@ function menus._drawSelectionBox(y)
   love.graphics.setColor(255, 255, 255)
   love.graphics.line(selX, selY,selX,selY + SELECT_HEIGHT) -- x1, y1, x2, y2, ...
   love.graphics.line(selX + SELECT_WIDTH,selY,selX + SELECT_WIDTH,selY + SELECT_HEIGHT) -- x1, y1, x2, y2, ...
+  
+  love.graphics.setColor(0, 0, 0)
 end
