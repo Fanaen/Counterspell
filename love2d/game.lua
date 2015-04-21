@@ -34,6 +34,7 @@ function Game:load()
   
   -- Text attacks list --
   self.attacks          = {}
+  self.attacksToRemove  = {}
 
   -- Psyko Code --
   
@@ -44,12 +45,36 @@ function Game:load()
   self.interspaceTime = 2
   self.remainingEnemies = math.random(10,20)
   self.enemies = {}
+  self.enemiesToRemove = {}
   
   
 end
 
 function Game:update(dt)
-
+  -- Remove the ennemy and the attacks --
+  for j,u in pairs(self.enemiesToRemove) do
+    for i,v in pairs(self.enemies) do
+      if v == u then
+        u.body:setActive(false)
+        table.remove(self.enemies, i)
+        break
+      end
+    end
+  end
+  
+  for j,u in pairs(self.attacksToRemove) do
+    for i,v in pairs(self.attacks) do
+      if v == u then
+        u.body:setActive(false)
+        table.remove(self.attacks, i)
+        break
+      end
+    end
+  end
+  self.enemiesToRemove = {}
+  self.attacksToRemove = {}
+  
+        
   -- Fanaen Code --
   self.world:update(dt)
   
@@ -75,10 +100,10 @@ function Game:update(dt)
     self.interspaceTime = math.random(2,10)
     
     local selectedEnemy = colors[math.random(1,#colors)]
-    local newEnemy = Enemy:new(selectedEnemy, line)
+    local newEnemy = Enemy:new(selectedEnemy, selectedLine)
+    newEnemy.color = selectedEnemy
     newEnemy:config()
     newEnemy:loadPhysic(self.world)
-    newEnemy.body:applyLinearImpulse(-2, 0)
     
     table.insert(self.enemies,newEnemy)
   end
@@ -101,7 +126,6 @@ function Game:draw()
   if self.textCursorText ~= "" then
     local x = 100
     local y = lineY
-    print(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setColor(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setFont(self.textFont)
     love.graphics.print(self.textCursorText, x, y)
@@ -139,6 +163,7 @@ function Game:onkeypressed(k)
     for key, color in ipairs(self:getColors()) do
       if string.find(self.textCursorText, color) then
         self.textCursorColor = self:getColor(color)
+        self.textCursorColorName = color
       end
     end
   end
@@ -160,6 +185,7 @@ function Game:enter()
     table.insert(self.attacks, attack)
     
     attack.color = self.textCursorColor
+    attack.colorName = self.textCursorColorName
     attack.body:applyLinearImpulse(50, 0)
     
     self.textCursorText = ""
@@ -236,6 +262,21 @@ function beginContact(a, b, coll)
     local x,y = coll:getNormal()
     local aObject, bObject = a:getUserData(),  b:getUserData()
     
+    if aObject.className == "Enemy" and bObject.className == "Attack" then
+      local temp = aObject
+      aObject = bObject
+      bObject = temp
+    end
+    
+    if aObject.className == "Attack" and bObject.className == "Enemy" then
+      local attack, enemy = aObject, bObject
+      print(attack.colorName, enemy.color)
+      if attack.colorName == enemy.color then
+         table.insert(Game.enemiesToRemove, enemy)
+      end
+      -- Remove the attack
+      table.insert(Game.attacksToRemove, attack)
+    end
         
     print(aObject.className.." colliding with ".. bObject.className)
 end

@@ -12,7 +12,8 @@ function Attack:new(o, text, line)
   self.className = "Attack"
   self.text = text
   self.line = line
-  self.color = {r = 255, g = 255, b = 255, a = 255} 
+  self.color = {r = 0, g = 0, b = 0, a = 255} 
+  self.colorName = "black"
   return o
 end
 

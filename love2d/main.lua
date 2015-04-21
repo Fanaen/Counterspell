@@ -8,11 +8,11 @@ CS_VERSION = "0.5"
 SCREEN_WIDTH = love.graphics.getWidth()
 SCREEN_HEIGHT = love.graphics.getHeight()
 
-LINES_HEIGHT = 50
+LINES_HEIGHT = 40
 MARGIN_TOP = 85
 
 MSG_DURATION = 3 -- seconds
-LINE_MAX_NUMBER = 11
+LINE_MAX_NUMBER = 10
 
 -- state in menu system
 GAME_MENU_MAIN = 1
@@ -147,20 +147,20 @@ end
 
 function keyPressedGameOver(k)
   if k == " " or k == "return" then
-    if highScoreName:len() > 0 and scores:isHighScore(stats.score) then
-      scores:addScore(highScoreName,stats.score)
-    end
+--    if highScoreName:len() > 0 and scores:isHighScore(stats.score) then
+--      scores:addScore(highScoreName,stats.score)
+--    end
     gameState = GAME_STATE_MENU
-  elseif k:len() == 1 and 
-    ((k >= "a" and k <= "z") or (k >= "0" and k <= "9")) then
-    if (highScoreName:len() < 10) then
-      highScoreName = highScoreName..k
-    end
-  elseif k == "backspace" or k == "delete" then
-    local len = highScoreName:len()
-    if (len > 0) then
-      highScoreName = highScoreName:sub(1,len-1)
-    end
+--  elseif k:len() == 1 and 
+--    ((k >= "a" and k <= "z") or (k >= "0" and k <= "9")) then
+--    if (highScoreName:len() < 10) then
+--      highScoreName = highScoreName..k
+--    end
+--  elseif k == "backspace" or k == "delete" then
+--    local len = highScoreName:len()
+--    if (len > 0) then
+--      highScoreName = highScoreName:sub(1,len-1)
+--    end
   end
 end
 
@@ -220,11 +220,11 @@ function drawGameOver()
   love.graphics.printf("GAME OVER", 0,230,SCREEN_WIDTH,"center")
 
   love.graphics.setFont(mainFont)
-  love.graphics.printf("Score: "..stats.score,0,250,SCREEN_WIDTH,"center")
-  if scores:isHighScore(stats.score) then
-    love.graphics.printf("Enter name to record score.",0,290,SCREEN_WIDTH,"center")
-    love.graphics.printf("Name: ["..highScoreName.."]",0,310,SCREEN_WIDTH,"center")
-  end
+  --love.graphics.printf("Score: "..stats.score,0,250,SCREEN_WIDTH,"center")
+  --if scores:isHighScore(stats.score) then
+  --  love.graphics.printf("Enter name to record score.",0,290,SCREEN_WIDTH,"center")
+  --  love.graphics.printf("Name: ["..highScoreName.."]",0,310,SCREEN_WIDTH,"center")
+  --end
   love.graphics.printf("press [space] to return to main menu", 0,350,SCREEN_WIDTH,"center")
 end
 

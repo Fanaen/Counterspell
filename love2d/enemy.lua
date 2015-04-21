@@ -9,7 +9,6 @@ function Enemy:new(color, line, o)
   o = o or Entity:new()
   setmetatable(o, self)
   self.__index = self
-  self.color = color
   self.line = line
   self.className = "Enemy"
   self.drawable = {}
@@ -70,6 +69,12 @@ function Enemy:loadPhysic(world)
 end
 
 function Enemy:update(dt)
+
+  if self.body:getX() < 100 then
+    gameState = GAME_STATE_GAME_OVER
+  end
+
+  self.body:setLinearVelocity(-20, 0)
   -- Update state --
   self.walkTime = self.walkTime + dt
   if self.walkTime > self.walkIntertime then 
