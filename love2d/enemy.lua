@@ -25,7 +25,7 @@ end
 
 function Enemy:config()  
   self.x = 800 - 16 - 10
-  self.y = MARGIN_TOP + self.line * LINES_HEIGHT
+  self.y = MARGIN_TOP + self.line * LINES_HEIGHT + 10
   self.w, self.h = 16, 15
   
   local walkMapping = {}

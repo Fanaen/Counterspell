@@ -26,7 +26,7 @@ function Game:load()
   self.textLineMax          = 10    -- Nb line max
   self.textCursorText       = ""    -- Current text
   self.textCursorColor      = {r = 0, g = 0, b = 0, a = 255} 
-  self.textCursorColorName  = "white"
+  self.textCursorColorName  = "black"
   self.textFont             = love.graphics.newFont("fonts/UbuntuMono-R.ttf", 20)
   
   -- Background --
@@ -101,9 +101,10 @@ function Game:draw()
   if self.textCursorText ~= "" then
     local x = 100
     local y = lineY
-  
+    print(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setColor(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setFont(self.textFont)
+    love.graphics.print(self.textCursorText, x, y)
   end
   
   -- Cursor --
@@ -112,6 +113,7 @@ function Game:draw()
     local y = lineY
     love.graphics.setColor(0, 0, 0, 255)
     love.graphics.rectangle("fill", x, y, 4, 20)
+    
   end
   
   -- Draw attacks and enemies --
@@ -135,7 +137,6 @@ function Game:onkeypressed(k)
     self.textCursorText = self.textCursorText .. k
     
     for key, color in ipairs(self:getColors()) do
-      print(self.textCursorText, color)
       if string.find(self.textCursorText, color) then
         self.textCursorColor = self:getColor(color)
       end
@@ -159,6 +160,7 @@ function Game:enter()
     table.insert(self.attacks, attack)
     
     attack.color = self.textCursorColor
+    attack.body:applyLinearImpulse(50, 0)
     
     self.textCursorText = ""
   end
@@ -245,7 +247,7 @@ function postSolve(a, b, coll, normalimpulse1, tangentimpulse1, normalimpulse2, 
 -- Color --
 
 function Game:getColor(str)
-  local color = {r = 255, g = 255, b = 255, a = 255} 
+  local color = {r = 0, g = 0, b = 0, a = 255} 
   
   if str == "black" then
     color.r = 0
@@ -310,7 +312,7 @@ function Game:getColors()
     "purple",
     --"rainbow",
     "red",
-    "white",
+    --"white",
     "yellow", 
     --"zebra" 
   }

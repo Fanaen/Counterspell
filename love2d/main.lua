@@ -9,10 +9,10 @@ SCREEN_WIDTH = love.graphics.getWidth()
 SCREEN_HEIGHT = love.graphics.getHeight()
 
 LINES_HEIGHT = 50
-MARGIN_TOP = 100
+MARGIN_TOP = 85
 
 MSG_DURATION = 3 -- seconds
-LINE_MAX_NUMBER = 10
+LINE_MAX_NUMBER = 11
 
 -- state in menu system
 GAME_MENU_MAIN = 1
