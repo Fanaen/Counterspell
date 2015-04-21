@@ -2,7 +2,7 @@
 require "attack"
 require "enemy"
 
-local colors = {"black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "rainbow", "red", "white", "yellow", "zebra"}
+local colors = {"black", "blue", "brown", "gray", "green", "orange", "pink", "purple", "red", "yellow"} -- "rainbow", , "zebra" , "white"
 
 
 Game = {
@@ -41,7 +41,7 @@ function Game:load()
   self.level = 1
   self.enemyNumber = 0
   self.partyTime = 0
-  self.interspaceTime = math.random(2,10)
+  self.interspaceTime = 2
   self.remainingEnemies = math.random(10,20)
   self.enemies = {}
   
@@ -51,6 +51,7 @@ end
 function Game:update(dt)
 
   -- Fanaen Code --
+  self.world:update(dt)
   
   -- Blink state --
   self.textBlinkTime = self.textBlinkTime + dt
@@ -61,6 +62,7 @@ function Game:update(dt)
   
   -- Attacks --
   self:updateArray(self.attacks, dt)
+  self:updateArray(self.enemies, dt)
 
 -- Psyko Code --
 	
@@ -73,8 +75,12 @@ function Game:update(dt)
     self.interspaceTime = math.random(2,10)
     
     local selectedEnemy = colors[math.random(1,#colors)]
+    local newEnemy = Enemy:new(selectedEnemy, line)
+    newEnemy:config()
+    newEnemy:loadPhysic(self.world)
+    newEnemy.body:applyLinearImpulse(-2, 0)
     
-    table.insert(self.enemies,selectedEnemy)
+    table.insert(self.enemies,newEnemy)
   end
 	
 	
@@ -98,7 +104,6 @@ function Game:draw()
   
     love.graphics.setColor(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
     love.graphics.setFont(self.textFont)
-    love.graphics.print(self.textCursorText, x, y)
   end
   
   -- Cursor --
@@ -109,13 +114,14 @@ function Game:draw()
     love.graphics.rectangle("fill", x, y, 4, 20)
   end
   
-  -- Draw attacks --
+  -- Draw attacks and enemies --
   
   self:drawArray(self.attacks)
+  self:drawArray(self.enemies)
   
   -- Psyko Code --	
 
-  self:GuiDraw()
+  --self:GuiDraw()
 end
 
 function Game:onkeypressed(k)
