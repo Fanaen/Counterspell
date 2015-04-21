@@ -25,7 +25,7 @@ function Game:load()
   self.textCursorLine       = 1     -- Cursor's line
   self.textLineMax          = 10    -- Nb line max
   self.textCursorText       = ""    -- Current text
-  self.textCursorColor      = {r = 255, g = 255, b = 255, a = 255} 
+  self.textCursorColor      = {r = 0, g = 0, b = 0, a = 255} 
   self.textCursorColorName  = "white"
   self.textFont             = love.graphics.newFont("fonts/UbuntuMono-R.ttf", 20)
   
@@ -93,7 +93,7 @@ function Game:draw()
   
   -- Text --
   if self.textCursorText ~= "" then
-    local x = 10
+    local x = 100
     local y = lineY
   
     love.graphics.setColor(self.textCursorColor.r, self.textCursorColor.g, self.textCursorColor.b, self.textCursorColor.a)
@@ -103,9 +103,9 @@ function Game:draw()
   
   -- Cursor --
   if self.textBlinkState then
-    local x = 10 + string.len(self.textCursorText) * 10
+    local x = 100 + string.len(self.textCursorText) * 10
     local y = lineY
-    love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.setColor(0, 0, 0, 255)
     love.graphics.rectangle("fill", x, y, 4, 20)
   end
   

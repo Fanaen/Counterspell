@@ -19,7 +19,7 @@ end
 -- Methods --
 
 function Attack:config()
-  self.x = 10
+  self.x = 100
   self.y = MARGIN_TOP + self.line * LINES_HEIGHT
   self.h = 20
   self.w = string.len(self.line) * 10
